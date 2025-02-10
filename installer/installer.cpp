@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const string SERVER_URL = "http://45.90.160.149/cdn/";
+const string SERVER_URL = "https://arthur.xn--pruvost-rivire-6jb.fr/cdn/";
 const string FILE_LIST = "files.txt"; // Fichier contenant la liste des fichiers à télécharger
 
 // Fonction pour obtenir le dossier utilisateur
