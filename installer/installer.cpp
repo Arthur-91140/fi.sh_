@@ -14,6 +14,38 @@ using namespace std;
 const string SERVER_URL = "https://arthur.xn--pruvost-rivire-6jb.fr/cdn/";
 const string FILE_LIST = "files.txt"; // Fichier contenant la liste des fichiers à télécharger
 
+
+void RequestAdminPrivileges() {
+    // Vérifie si le programme tourne déjà en mode admin
+    BOOL isAdmin = FALSE;
+    SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+    PSID pAdminGroup;
+    if (AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
+        DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &pAdminGroup)) {
+        CheckTokenMembership(NULL, pAdminGroup, &isAdmin);
+        FreeSid(pAdminGroup);
+    }
+
+    if (!isAdmin) {
+        // Relance le programme avec les droits admin
+        TCHAR szPath[MAX_PATH];
+        GetModuleFileName(NULL, szPath, MAX_PATH);
+
+        SHELLEXECUTEINFO sei = { sizeof(sei) };
+        sei.lpVerb = TEXT("runas");  // Demande les droits administrateur
+        sei.lpFile = szPath;
+        sei.hwnd = NULL;
+        sei.nShow = SW_SHOWDEFAULT;
+        sei.fMask = SEE_MASK_NOCLOSEPROCESS;
+
+        if (!ShellExecuteEx(&sei)) {
+            MessageBox(NULL, TEXT("Échec de l'obtention des droits administrateur !"), TEXT("Erreur"), MB_OK);
+            exit(1);
+        }
+        exit(0);
+    }
+}
+
 // Fonction pour obtenir le dossier utilisateur
 string GetUserFolderPath() {
     char path[MAX_PATH];
@@ -101,6 +133,9 @@ bool InstallService(const string& serviceName, const string& exePath) {
 }
 
 int main() {
+
+    RequestAdminPrivileges();
+
     string userFolder = GetUserFolderPath();
     if (userFolder.empty()) {
         MessageBox(NULL, "Impossible d'obtenir le dossier utilisateur.", "Erreur", MB_OK | MB_ICONERROR);
