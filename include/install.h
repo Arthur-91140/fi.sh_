@@ -14,8 +14,10 @@
 
 using namespace std;
 
+// Request UAC
 void RequestAdminPrivileges();
 
+// Return user folder
 string GetUserFolderPath();
 
 #endif

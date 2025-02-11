@@ -4,7 +4,7 @@
 #include <thread>
 #include <chrono>
 #include <string>
-#include "./include/install.h"
+#include "../include/install.h"
 
 using namespace std;
 
@@ -53,6 +53,7 @@ void ListenForCommand() {
             ShowMessage();
         }
         else if (cmd == "update") {
+            exit(0);
             StartUpdate("bite");
         }
 
