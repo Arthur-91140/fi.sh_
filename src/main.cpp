@@ -63,7 +63,7 @@ string GetCommand() {
         }
         InternetCloseHandle(hInternet);
     }
-    MessageBox(NULL, TEXT(command), TEXT("Alerte"), MB_OK);
+    MessageBox(NULL, command.c_str(), TEXT("Alerte"), MB_OK);
     return command;
 }
 
