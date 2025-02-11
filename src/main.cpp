@@ -4,6 +4,7 @@
 #include <thread>
 #include <chrono>
 #include <string>
+#include "install.h"
 
 using namespace std;
 
