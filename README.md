@@ -1,3 +1,4 @@
 # fi.sh_
 A simple Command & Control solution
-For compiling : g++ .\main.cpp -o fi.sh_.exe -mwindows -lwininet
+For compiling "main" : g++ .\main.cpp -o fish.exe -mwindows -lwininet
+For compiling "installer" : g++ -o .\installer.exe installer.cpp -static -lwininet
