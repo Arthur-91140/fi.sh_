@@ -4,40 +4,11 @@
 #include <thread>
 #include <chrono>
 #include <string>
-#include "install.h"
+#include "./include/install.h"
 
 using namespace std;
 
 #pragma comment(lib, "wininet.lib")
-
-void RequestAdminPrivileges() {
-    BOOL isAdmin = FALSE;
-    SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-    PSID pAdminGroup;
-    if (AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
-        DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &pAdminGroup)) {
-        CheckTokenMembership(NULL, pAdminGroup, &isAdmin);
-        FreeSid(pAdminGroup);
-    }
-
-    if (!isAdmin) {
-        TCHAR szPath[MAX_PATH];
-        GetModuleFileName(NULL, szPath, MAX_PATH);
-
-        SHELLEXECUTEINFO sei = { sizeof(sei) };
-        sei.lpVerb = TEXT("runas");
-        sei.lpFile = szPath;
-        sei.hwnd = NULL;
-        sei.nShow = SW_SHOWDEFAULT;
-        sei.fMask = SEE_MASK_NOCLOSEPROCESS;
-
-        if (!ShellExecuteEx(&sei)) {
-            MessageBox(NULL, TEXT("Échec de l'obtention des droits administrateur !"), TEXT("Erreur"), MB_OK);
-            exit(1);
-        }
-        exit(0);
-    }
-}
 
 // Affiche une boîte de dialogue d'alerte.
 void ShowMessage() {
