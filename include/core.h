@@ -26,4 +26,7 @@ bool DownloadFile(const string& url, const string& localPath);
 // Fonction pour lire la liste des fichiers depuis files.txt
 vector<string> GetFileList(const string& filePath);
 
+// Fonction pour tuer un processus (requiert UAC)
+void killProcess(const char* processName);
+
 #endif
