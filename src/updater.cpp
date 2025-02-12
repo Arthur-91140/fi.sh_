@@ -14,12 +14,7 @@
 
 using namespace std;
 
-void killProcess(const char* processName) {
-    string command = "taskkill /IM ";
-    command += processName;
-    command += " /F";
-    system(command.c_str());
-}
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 

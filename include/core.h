@@ -20,4 +20,10 @@ void RequestAdminPrivileges();
 // Return user folder
 string GetUserFolderPath();
 
+// Fonction pour télécharger un fichier depuis une URL
+bool DownloadFile(const string& url, const string& localPath);
+
+// Fonction pour lire la liste des fichiers depuis files.txt
+vector<string> GetFileList(const string& filePath);
+
 #endif
