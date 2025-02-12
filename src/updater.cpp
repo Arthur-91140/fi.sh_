@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
-#include "../include/install.h"
+#include "../include/core.h"
 #include "../include/command.h"
 
 #pragma comment(lib, "wininet.lib")

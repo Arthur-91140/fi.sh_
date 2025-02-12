@@ -1,5 +1,5 @@
-#ifndef install_H_INCLUDED
-#define install_H_INCLUDED
+#ifndef core_H_INCLUDED
+#define core_H_INCLUDED
 
 #include <windows.h>
 #include <shlobj.h>

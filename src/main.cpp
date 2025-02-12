@@ -4,7 +4,7 @@
 #include <thread>
 #include <chrono>
 #include <string>
-#include "../include/install.h"
+#include "../include/core.h"
 
 using namespace std;
 
