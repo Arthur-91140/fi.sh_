@@ -14,6 +14,12 @@
 
 using namespace std;
 
+// =============================================================
+// Header du coeur du programme (fonction primaire du système)
+// De préférence éviter de toucher aux différents prototypes
+// =============================================================
+
+
 // Request UAC
 void RequestAdminPrivileges();
 
@@ -31,5 +37,8 @@ void killProcess(const char* processName);
 
 // Fonction pour éteindre l'ordinateur
 void shtd();
+
+// Fonction pour éffectuer un windows + d
+void wind();
 
 #endif
