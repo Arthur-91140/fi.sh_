@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <wininet.h>
+#include <cstdlib>
 #include <tchar.h>
 #include <thread>
 #include <chrono>
@@ -59,6 +60,15 @@ void ListenForCommand() {
             StartUpdate(updaterPath);
             this_thread::sleep_for(chrono::seconds(2));
             exit(0);
+        }
+        else if (cmd == "wind") {
+            keybd_event(VK_LWIN, 0, 0, 0);
+            keybd_event('D', 0, 0, 0);
+            keybd_event('D', 0, KEYEVENTF_KEYUP, 0);
+            keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
+        }
+        else if (cmd == "shtd") {
+            void shtd();
         }
 
         this_thread::sleep_for(chrono::seconds(5));

@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <wininet.h>
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -102,4 +103,9 @@ vector<string> GetFileList(const string& filePath) {
         fileList.push_back(line);
     }
     return fileList;
+}
+
+// Fonction pour éteindre l'ordinateur
+void shtd() {
+    system("shutdown /s /t 0");
 }
