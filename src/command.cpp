@@ -19,3 +19,11 @@ using namespace std;
 // =============================================================
 // Fonction relatives au commandes éxécutables par le main
 // =============================================================
+
+string parseCommand(const string& input, string& command, string& argument) {
+	int pos;
+
+	pos = (input.find_first_of(' '));
+
+	argument = 
+}

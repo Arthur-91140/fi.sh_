@@ -18,3 +18,6 @@ using namespace std;
 // =============================================================
 // Prototypes relatifs au commandes éxécutables par le main
 // =============================================================
+
+// Fonction pour extraire une commande et ses arguments
+string parseCommand(const string& input, string& command, string& argument);
