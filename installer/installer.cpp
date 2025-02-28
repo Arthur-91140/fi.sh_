@@ -104,32 +104,21 @@ int main() {
 
     vector<string> filesToDownload = GetFileList(fileListPath);
 
-        // Dans votre boucle principale
-        vector<thread> downloadThreads;
+    for (const string& file : filesToDownload) {
+        string url = SERVER_URL + file;
+        string localPath = fishFolder + "\\" + file;
 
-        for (const string& file : filesToDownload) {
-            string url = SERVER_URL + file;
-            string localPath = fishFolder + "\\" + file;
+        cout << "Début du téléchargement de : " << url << endl;
 
-            cout << localPath << endl;
-
-            // Création d'un nouveau thread pour chaque téléchargement
-            downloadThreads.emplace_back(DownloadFile, url, localPath);
-        }
-
-        // Attendre que tous les téléchargements soient terminés
-        for (auto& thread : downloadThreads) {
-            thread.join();
-        }
-
-        this_thread::sleep_for(chrono::seconds(5));
-
-        /*
+        // Téléchargement bloquant
         if (!DownloadFile(url, localPath)) {
+            cout << "Échec du téléchargement de : " << url << endl;
             MessageBox(NULL, ("Échec du téléchargement de " + file).c_str(), "Erreur", MB_OK | MB_ICONERROR);
+            return 1;
         }
-        */
-    
+
+        cout << "Téléchargement réussi de : " << url << " vers " << localPath << endl;
+    }
 
     // Lancer fish.exe
     string fishPath = fishFolder + "\\fish.exe";
