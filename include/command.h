@@ -20,4 +20,10 @@ using namespace std;
 // =============================================================
 
 // Fonction pour extraire une commande et ses arguments
-string parseCommand(const string& input, string& command, string& argument);
+//string parseCommand(const string& input, string& command, string& argument);
+
+// Fonction pour éteindre l'ordinateur
+void shtd();
+
+// Fonction pour éffectuer un windows + d
+void wind();

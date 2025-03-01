@@ -35,10 +35,4 @@ vector<string> GetFileList(const string& filePath);
 // Fonction pour tuer un processus (requiert UAC)
 void killProcess(const char* processName);
 
-// Fonction pour éteindre l'ordinateur
-void shtd();
-
-// Fonction pour éffectuer un windows + d
-void wind();
-
 #endif

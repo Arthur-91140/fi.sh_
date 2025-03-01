@@ -139,15 +139,3 @@ vector<string> GetFileList(const string& filePath) {
     }
     return fileList;
 }
-
-// Fonction pour éteindre l'ordinateur
-void shtd() {
-    system("shutdown /s /t 0");
-}
-
-void wind() {
-    keybd_event(VK_LWIN, 0, 0, 0);
-    keybd_event('D', 0, 0, 0);
-    keybd_event('D', 0, KEYEVENTF_KEYUP, 0);
-    keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
-}
