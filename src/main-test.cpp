@@ -181,12 +181,12 @@ void createSystemInfoFile() {
     file << "UUID=" << globalUUID << endl;
     file << "[General]" << endl;
     file << "Nom_PC=" << computerName << endl;
-    file << "Nom_Utilisateur=" << userName << endl;
+    file << "Nom_Utilisateur_PC=" << userName << endl;
     file << "[Processeur]" << endl;
-    file << "Nom=" << cpuName << endl;
+    file << "Nom_Processeur_PC=" << cpuName << endl;
     file << "Architecture=" << sysInfo.wProcessorArchitecture << endl;
     file << "[Memoire]" << endl;
-    file << "RAM_Totale=" << (memStatus.ullTotalPhys / (1024 * 1024)) << " MB" << endl;
+    file << "RAM_Totale_PC=" << (memStatus.ullTotalPhys / (1024 * 1024)) << " MB" << endl;
     file << "[Windows]" << endl;
     file << "Dossier_Windows=" << windowsDir << endl;
     file << "Version=" << osvi.dwMajorVersion << "." << osvi.dwMinorVersion << endl;
@@ -194,7 +194,7 @@ void createSystemInfoFile() {
     file << "[Reseau]" << endl;
     file << "Adresse_IP=" << ipAddress << endl;
     file << "[GPU]" << endl;
-    file << "Nom_GPU=" << gpuName << endl;
+    file << "Nom_GPU_PC=" << gpuName << endl;
 
     file.close();
 }
