@@ -8,12 +8,12 @@
 using namespace std;
 namespace fs = filesystem;
 
-// Fonction pour arrêter un processus par son nom
+// Fonction pour arrï¿½ter un processus par son nom
 bool KillProcessByName(const wstring& processName) {
-    cout << "[INFO] Tentative d'arrêt du processus: " << string(processName.begin(), processName.end()) << endl;
+    cout << "[INFO] Tentative d'arrï¿½t du processus: " << string(processName.begin(), processName.end()) << endl;
     HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (hSnap == INVALID_HANDLE_VALUE) {
-        cout << "[ERROR] Impossible de créer un instantané des processus." << endl;
+        cout << "[ERROR] Impossible de crï¿½er un instantanï¿½ des processus." << endl;
         return false;
     }
 
@@ -25,10 +25,10 @@ bool KillProcessByName(const wstring& processName) {
             if (processName == pe.szExeFile) {
                 HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pe.th32ProcessID);
                 if (hProcess) {
-                    cout << "[INFO] Processus trouvé, arrêt en cours..." << endl;
+                    cout << "[INFO] Processus trouvï¿½, arrï¿½t en cours..." << endl;
                     TerminateProcess(hProcess, 0);
                     CloseHandle(hProcess);
-                    cout << "[INFO] Processus arrêté avec succès." << endl;
+                    cout << "[INFO] Processus arrï¿½tï¿½ avec succï¿½s." << endl;
                 }
                 else {
                     cout << "[WARN] Impossible d'ouvrir le processus." << endl;
@@ -40,9 +40,9 @@ bool KillProcessByName(const wstring& processName) {
     return true;
 }
 
-// Fonction pour exécuter une commande système
+// Fonction pour exï¿½cuter une commande systï¿½me
 void ExecuteCommand(const wstring& command) {
-    cout << "[INFO] Exécution de la commande: " << string(command.begin(), command.end()) << endl;
+    cout << "[INFO] Exï¿½cution de la commande: " << string(command.begin(), command.end()) << endl;
     system(string(command.begin(), command.end()).c_str());
 }
 
@@ -63,7 +63,7 @@ bool supprimerDossier(const string& chemin) {
             return true;
         }
         else {
-            cerr << "Le dossier n'existe pas ou ce n'est pas un répertoire." << endl;
+            cerr << "Le dossier n'existe pas ou ce n'est pas un rï¿½pertoire." << endl;
             return false;
         }
     }
@@ -73,12 +73,12 @@ bool supprimerDossier(const string& chemin) {
     }
 }
 
-// Fonction pour supprimer la clé de registre
+// Fonction pour supprimer la clï¿½ de registre
 bool DeleteRunKeyFish() {
     HKEY hKey;
     LONG result;
 
-    // Ouvrir la clé de registre
+    // Ouvrir la clï¿½ de registre
     result = RegOpenKeyExA(
         HKEY_CURRENT_USER,
         "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
@@ -94,15 +94,15 @@ bool DeleteRunKeyFish() {
     // Supprimer la valeur "fish"
     result = RegDeleteValueA(hKey, "fish");
 
-    // Fermer la clé
+    // Fermer la clï¿½
     RegCloseKey(hKey);
 
-    // Retourner true si la suppression a réussi
+    // Retourner true si la suppression a rï¿½ussi
     return (result == ERROR_SUCCESS);
 }
 
 int main() {
-    cout << "[INFO] Vérification des privilèges administrateur..." << endl;
+    cout << "[INFO] Vï¿½rification des privilï¿½ges administrateur..." << endl;
     BOOL isAdmin = FALSE;
     SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
     PSID AdministratorsGroup;
@@ -113,23 +113,23 @@ int main() {
     }
 
     if (!isAdmin) {
-        cout << "[ERROR] Ce programme doit être exécuté en mode administrateur." << endl;
+        cout << "[ERROR] Ce programme doit ï¿½tre exï¿½cutï¿½ en mode administrateur." << endl;
 
         return 1;
     }
 
-    cout << "[INFO] Début de la suppression du programme fish." << endl;
+    cout << "[INFO] Dï¿½but de la suppression du programme fish." << endl;
 
-    // Arrêter le processus fish.exe
+    // Arrï¿½ter le processus fish.exe
     KillProcessByName(L"fish.exe");
 
-    // Exécuter la commande 'sc delete fish'
+    // Exï¿½cuter la commande 'sc delete fish'
     ExecuteCommand(L"sc delete fish");
 
-    // Supprimer la clé de registre
+    // Supprimer la clï¿½ de registre
     DeleteRunKeyFish();
 
-    // Récupérer le chemin du dossier utilisateur et supprimer le dossier 'fish'
+    // Rï¿½cupï¿½rer le chemin du dossier utilisateur et supprimer le dossier 'fish'
     string userFolder = GetUserFolderPath();
     if (userFolder.empty()) {
         MessageBox(NULL, "Impossible d'obtenir le dossier utilisateur.", "Erreur", MB_OK | MB_ICONERROR);
@@ -140,7 +140,7 @@ int main() {
 
     supprimerDossier(fishFolder);
 
-    cout << "[INFO] Le programme fish a été supprimé avec succès." << endl;
+    cout << "[INFO] Le programme fish a ï¿½tï¿½ supprimï¿½ avec succï¿½s." << endl;
 
     return 0;
 }
