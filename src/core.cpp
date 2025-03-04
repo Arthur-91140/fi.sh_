@@ -14,8 +14,8 @@
 using namespace std;
 
 // =============================================================
-// Fonction du coeur du programme (fonction primaire du système)
-// De préférence éviter de toucher aux différentes fonctions
+// Fonction du coeur du programme (fonction primaire du systï¿½me)
+// De prï¿½fï¿½rence ï¿½viter de toucher aux diffï¿½rentes fonctions
 // =============================================================
 
 void RequestAdminPrivileges() {
@@ -41,7 +41,7 @@ void RequestAdminPrivileges() {
         sei.fMask = SEE_MASK_NOCLOSEPROCESS;
 
         if (!ShellExecuteEx(&sei)) {
-            MessageBox(NULL, TEXT("Échec de l'obtention des droits administrateur !"), TEXT("Erreur"), MB_OK);
+            MessageBox(NULL, TEXT("ï¿½chec de l'obtention des droits administrateur !"), TEXT("Erreur"), MB_OK);
             exit(1);
         }
         exit(0);
@@ -66,7 +66,7 @@ void killProcess(const char* processName) {
     system(command.c_str());
 }
 
-// Fonction pour télécharger un fichier depuis une URL
+// Fonction pour tï¿½lï¿½charger un fichier depuis une URL
 bool DownloadFile(const string& url, const string& localPath) {
     HINTERNET hInternet = InternetOpen("Installer", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (!hInternet) return false;
@@ -96,38 +96,6 @@ bool DownloadFile(const string& url, const string& localPath) {
     InternetCloseHandle(hInternet);
     return true;
 }
-
-/*
-bool DownloadFile(const string& url, const string& localPath) {
-    HINTERNET hInternet = InternetOpen("Installer", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
-    if (!hInternet) return false;
-
-    HINTERNET hUrl = InternetOpenUrl(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
-    if (!hUrl) {
-        InternetCloseHandle(hInternet);
-        return false;
-    }
-
-    char buffer[4096];
-    DWORD bytesRead;
-    HANDLE hFile = CreateFile(localPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    if (hFile == INVALID_HANDLE_VALUE) {
-        InternetCloseHandle(hUrl);
-        InternetCloseHandle(hInternet);
-        return false;
-    }
-
-    while (InternetReadFile(hUrl, buffer, sizeof(buffer), &bytesRead) && bytesRead > 0) {
-        DWORD bytesWritten;
-        WriteFile(hFile, buffer, bytesRead, &bytesWritten, NULL);
-    }
-
-    CloseHandle(hFile);
-    InternetCloseHandle(hUrl);
-    InternetCloseHandle(hInternet);
-    return true;
-}
-*/
 
 // Fonction pour lire la liste des fichiers depuis files.txt
 vector<string> GetFileList(const string& filePath) {

