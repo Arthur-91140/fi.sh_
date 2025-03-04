@@ -16,14 +16,17 @@ using namespace std;
 #pragma comment(lib, "wininet.lib")
 
 // =============================================================
-// Prototypes relatifs au commandes éxécutables par le main
+// Prototypes relatifs au commandes ï¿½xï¿½cutables par le main
 // =============================================================
 
 // Fonction pour extraire une commande et ses arguments
 //string parseCommand(const string& input, string& command, string& argument);
 
-// Fonction pour éteindre l'ordinateur
+// Fonction pour ï¿½teindre l'ordinateur
 void shtd();
 
-// Fonction pour éffectuer un windows + d
+// Fonction pour ï¿½ffectuer un windows + d
 void wind();
+
+// Affiche une boï¿½te de dialogue d'alerte.
+void ShowMessage();
