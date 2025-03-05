@@ -30,3 +30,6 @@ void wind();
 
 // Affiche une bo�te de dialogue d'alerte.
 void ShowMessage();
+
+// Fonction pour ex�cuter une commande PowerShell et retourner le r�sultat.
+string ExecuteShellCommand(const string& command);

