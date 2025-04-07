@@ -22,31 +22,8 @@ using namespace std;
 const string SERVER_URL = "https://arthur.xn--pruvost-rivire-6jb.fr/cdn/";
 const string FILE_LIST = "files.txt";
 
-/*
-// Fonction qui retourne le dossier utilisateur
-string GetUserFolderPath() {
-    char path[MAX_PATH];
-    if (SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, path) == S_OK) {
-        return string(path);
-    }
-    return "";
-}
-*/
 
-/*
-// Fonction pour lire la liste des fichiers depuis files.txt
-vector<string> GetFileList(const string& filePath) {
-    vector<string> fileList;
-    ifstream file(filePath);
-    string line;
-    while (getline(file, line)) {
-        fileList.push_back(line);
-    }
-    return fileList;
-}
-*/
-
-// Créer une sauvegarde des fichiers
+// Creer une sauvegarde des fichiers
 bool backupFiles(const string& fishFolder, const string& backupFolder) {
     try {
         fs::create_directory(backupFolder);
@@ -89,7 +66,7 @@ void ExecuteFile(const string& filePath) {
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
-    // Attente de 10s le temps de l'arrêt de fish.exe
+    // Attente de 10s le temps de l'arret de fish.exe
     this_thread::sleep_for(chrono::seconds(10));
 
     string userFolder = GetUserFolderPath();
@@ -101,7 +78,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     string fishFolder = userFolder + "\\fish";
     string backupFolder = fishFolder + "\\backup_" + to_string(time(nullptr));
 
-    // Créer la sauvegarde
+    // Creer la sauvegarde
     if (!backupFiles(fishFolder, backupFolder)) {
         MessageBox(NULL, "Erreur lors de la sauvegarde.", "Erreur", MB_OK | MB_ICONERROR);
         return 1;
@@ -113,14 +90,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         return 1;
     }
 
-    // Télécharger et lire la liste des fichiers
+    // Telecharger et lire la liste des fichiers
     string fileListPath = fishFolder + "\\" + FILE_LIST;
     if (!DownloadFile(SERVER_URL + FILE_LIST, fileListPath)) {
-        MessageBox(NULL, "Échec du téléchargement de files.txt", "Erreur", MB_OK | MB_ICONERROR);
+        MessageBox(NULL, "ï¿½chec du tï¿½lï¿½chargement de files.txt", "Erreur", MB_OK | MB_ICONERROR);
         return 1;
     }
 
-    // Télécharger chaque fichier de la liste
+    // Telecharger chaque fichier de la liste
     vector<string> filesToDownload = GetFileList(fileListPath);
 
         // Dans votre boucle principale
@@ -135,26 +112,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
             cout << localPath << endl;
 
-            // Création d'un nouveau thread pour chaque téléchargement
+            // Creation d'un nouveau thread pour chaque telechargement
             downloadThreads.emplace_back(DownloadFile, url, localPath);
         }
 
-        // Attendre que tous les téléchargements soient terminés
+        // Attendre que tous les telechargements soient termines
         for (auto& thread : downloadThreads) {
             thread.join();
         }
 
         this_thread::sleep_for(chrono::seconds(5));
 
-        /*
-        if (!DownloadFile(url, localPath)) {
-            MessageBox(NULL, ("Échec du téléchargement de " + file).c_str(), "Erreur", MB_OK | MB_ICONERROR);
-            continue;
-        }
-        */
-
-
-    // Démarre fish.exe
+    // Demarre fish.exe
     string fishPath = fishFolder + "\\fish.exe";
     ExecuteFile(fishPath);
 
