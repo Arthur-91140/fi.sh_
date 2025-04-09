@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
+#include "../include/uuid.h"
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "wbemuuid.lib")
@@ -27,7 +28,7 @@ using namespace std;
 extern string globalUUID;
 
 // Fonction pour récupérer le nom du GPU via WMI
-string getGPUName()
+string getGPUName();
 
 // Fonction pour créer le fichier system_info.dat et y écrire toutes les infos
 void createSystemInfoFile();

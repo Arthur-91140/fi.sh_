@@ -8,6 +8,10 @@
 #include <rpc.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
+
+#include "../include/system-info.h"
+#include "../include/uuid.h"
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "wbemuuid.lib")

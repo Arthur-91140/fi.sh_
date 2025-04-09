@@ -11,8 +11,10 @@
 
 using namespace std;
 
+extern string globalUUID;
+
 // Fonction pour lire l'UUID depuis un fichier INI existant
-void readUUIDFromFile()
+void readUUIDFromFile();
 
 // Fonction pour générer un UUID localement
 string getUUID();
