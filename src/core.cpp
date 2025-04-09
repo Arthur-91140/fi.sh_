@@ -6,16 +6,21 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
-#include "../include/core.h"
+#include <tchar.h>
+#include <sstream>
+#include <stdexcept>
+#include <algorithm>
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "advapi32.lib")
+#pragma comment(lib, "shell32.lib")
+#pragma comment(lib, "user32.lib")
 
 using namespace std;
 
 // =============================================================
-// Fonction du coeur du programme (fonction primaire du syst�me)
-// De pr�f�rence �viter de toucher aux diff�rentes fonctions
+// Fonction du coeur du programme (fonction primaire du système)
+// De préférence éviter de toucher aux différentes fonctions
 // =============================================================
 
 void RequestAdminPrivileges() {
@@ -41,7 +46,7 @@ void RequestAdminPrivileges() {
         sei.fMask = SEE_MASK_NOCLOSEPROCESS;
 
         if (!ShellExecuteEx(&sei)) {
-            MessageBox(NULL, TEXT("�chec de l'obtention des droits administrateur !"), TEXT("Erreur"), MB_OK);
+            MessageBox(NULL, TEXT("Échec de l'obtention des droits administrateur !"), TEXT("Erreur"), MB_OK);
             exit(1);
         }
         exit(0);
@@ -66,7 +71,7 @@ void killProcess(const char* processName) {
     system(command.c_str());
 }
 
-// Fonction pour t�l�charger un fichier depuis une URL
+// Fonction pour télécharger un fichier depuis une URL
 bool DownloadFile(const string& url, const string& localPath) {
     HINTERNET hInternet = InternetOpen("Installer", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (!hInternet) return false;
@@ -106,4 +111,24 @@ vector<string> GetFileList(const string& filePath) {
         fileList.push_back(line);
     }
     return fileList;
+}
+
+// Fonction pour uploader le fichier sur un serveur FTP
+bool uploadFileToFTP(const char* ftpServer, const char* username, const char* password, const char* localFile, const char* remoteFile) {
+    HINTERNET hInternet = InternetOpenA("FTP_Client", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+    if (!hInternet) return false;
+
+    HINTERNET hFtpSession = InternetConnectA(hInternet, ftpServer, INTERNET_DEFAULT_FTP_PORT, username, password,
+                                              INTERNET_SERVICE_FTP, INTERNET_FLAG_PASSIVE, 0);
+    if (!hFtpSession) {
+        InternetCloseHandle(hInternet);
+        return false;
+    }
+
+    bool success = FtpPutFileA(hFtpSession, localFile, remoteFile, FTP_TRANSFER_TYPE_BINARY, 0);
+
+    InternetCloseHandle(hFtpSession);
+    InternetCloseHandle(hInternet);
+
+    return success;
 }

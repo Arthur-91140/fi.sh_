@@ -4,19 +4,26 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <wininet.h>
+#include <cstdlib>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <tchar.h>
+#include <sstream>
+#include <stdexcept>
+#include <algorithm>
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "advapi32.lib")
+#pragma comment(lib, "shell32.lib")
+#pragma comment(lib, "user32.lib")
 
 using namespace std;
 
 // =============================================================
-// Header du coeur du programme (fonction primaire du système)
-// De préférence éviter de toucher aux différents prototypes
+// Header du coeur du programme (fonction primaire du systï¿½me)
+// De prï¿½fï¿½rence ï¿½viter de toucher aux diffï¿½rents prototypes
 // =============================================================
 
 
@@ -26,7 +33,7 @@ void RequestAdminPrivileges();
 // Return user folder
 string GetUserFolderPath();
 
-// Fonction pour télécharger un fichier depuis une URL
+// Fonction pour tï¿½lï¿½charger un fichier depuis une URL
 bool DownloadFile(const string& url, const string& localPath);
 
 // Fonction pour lire la liste des fichiers depuis files.txt
@@ -34,5 +41,8 @@ vector<string> GetFileList(const string& filePath);
 
 // Fonction pour tuer un processus (requiert UAC)
 void killProcess(const char* processName);
+
+// Fonction pour uploader le fichier sur un serveur FTP
+bool uploadFileToFTP(const char* ftpServer, const char* username, const char* password, const char* localFile, const char* remoteFile);
 
 #endif
