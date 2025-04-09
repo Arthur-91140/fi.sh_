@@ -20,6 +20,8 @@
 
 using namespace std;
 
+string globalUUID;
+
 // Fonction pour récupérer le nom du GPU via WMI
 string getGPUName() {
     string gpuName = "Inconnu";

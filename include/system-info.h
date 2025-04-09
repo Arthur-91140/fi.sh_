@@ -11,6 +11,7 @@
 #include <rpc.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "wbemuuid.lib")
@@ -22,6 +23,8 @@
 #pragma comment(lib, "oleaut32.lib")
 
 using namespace std;
+
+extern string globalUUID;
 
 // Fonction pour récupérer le nom du GPU via WMI
 string getGPUName()

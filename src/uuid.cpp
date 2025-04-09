@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <cstdio>
 
+#include "../include/system-info.h"
+
 #pragma comment(lib, "rpcrt4.lib")
 
 using namespace std;

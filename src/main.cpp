@@ -84,7 +84,7 @@ void ListenForCommand() {
 
 // Point d'entrée de l'application Windows (aucune console ne sera affichée)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-    string globalUUID = "";
+    //string globalUUID = GetUUID();
 
     thread listener(ListenForCommand);
     listener.detach();
