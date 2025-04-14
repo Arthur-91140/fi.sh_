@@ -82,8 +82,8 @@ void downloadFile(const string& url, const string& localPath) {
 
 int main() {
 
-    RequestAdminPrivileges();
-
+    //RequestAdminPrivileges();
+    
     string userFolder = GetUserFolderPath();
     if (userFolder.empty()) {
         MessageBox(NULL, "Impossible d'obtenir le dossier utilisateur.", "Erreur", MB_OK | MB_ICONERROR);

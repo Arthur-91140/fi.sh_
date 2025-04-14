@@ -1,0 +1,18 @@
+[OTHER]
+UUID=bdf18cfc-ebcb-4835-9965-c1890b2f98c1
+[General]
+Nom_PC=LAPTOP-00DJBBB3
+Nom_Utilisateur=tutur
+[Processeur]
+Nom=13th Gen Intel(R) Core(TM) i5-1335U
+Architecture=9
+[Memoire]
+RAM_Totale=16067 MB
+[Windows]
+Dossier_Windows=C:\WINDOWS
+Version=6.2
+Build=9200
+[Reseau]
+Adresse_IP=0.0.0.0
+[GPU]
+Nom_GPU=Intel(R) Iris(R) Xe Graphics
