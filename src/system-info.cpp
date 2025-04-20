@@ -105,7 +105,11 @@ string getGPUName() {
 
 // Fonction pour créer le fichier system_info.dat et y écrire toutes les infos
 void createSystemInfoFile() {
-    ofstream file("system_info.dat");
+    string userFolder = GetUserFolderPath();
+    string fishFolder = userFolder + "\\fish";
+    string filePath = fishFolder + "\\system_info.dat";
+
+    ofstream file(filePath);
     if (!file.is_open()) return;
 
     // Récupérer l'UUID
