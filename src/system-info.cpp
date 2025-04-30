@@ -12,6 +12,7 @@
 
 #include "../include/system-info.h"
 #include "../include/uuid.h"
+#include "../include/core.h"
 
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "wbemuuid.lib")
